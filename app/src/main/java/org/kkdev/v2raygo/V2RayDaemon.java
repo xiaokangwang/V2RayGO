@@ -42,7 +42,7 @@ public class V2RayDaemon extends Service {
                 break;
                 case MSG_Start_V2Ray:
                     if(!vp.getIsRunning()){
-                        show_noti("V2Ray running in front.");
+                        show_noti("Freedom shall be portable.");
                         vp.setCallbacks(vp_callback);
                         SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
                         String configureFile = settings.getString("configureFile","");
