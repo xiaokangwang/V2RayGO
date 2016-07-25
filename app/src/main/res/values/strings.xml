@@ -64,4 +64,8 @@
     <string name="status">Status</string>
     <string name="enable_v2ray">Enable V2Ray</string>
     <string name="pick_configure_file">Pick Configure File</string>
+
+    <string name="title_activity_vpnservice_user_consent">VPNService User Consent</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

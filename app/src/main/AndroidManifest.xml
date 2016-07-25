@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.kkdev.v2raygo">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,7 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainScreen" android:process=":MainActivProc">
+        <activity
+            android:name=".MainScreen"
+            android:process=":MainActivProc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +24,24 @@
             android:name=".V2RayDaemon"
             android:enabled="true"
             android:exported="false"
-            android:process=":RunSoLibV2RayDaemon"/>
+            android:process=":RunSoLibV2RayDaemon" />
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".VPNServiceUserConsentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_vpnservice_user_consent"
+            android:process=":MainActivProc"
+            android:theme="@style/FullscreenTheme" />
+
+        <service
+            android:name=".V2RVPNService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:process=":RunSoLibV2RayDaemon">></service>
     </application>
 
 </manifest>
