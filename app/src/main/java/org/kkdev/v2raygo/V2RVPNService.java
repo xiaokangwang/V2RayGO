@@ -53,6 +53,7 @@ public class V2RVPNService extends VpnService {
         @Override
         public void onRevoke() {
             super.onRevoke();
+            stopSelf();
         }
 
         public int getfd(){
@@ -62,10 +63,6 @@ public class V2RVPNService extends VpnService {
 
         public void setup(String parameters) throws Exception {
             // If the old interface has exactly the same parameters, use it!
-            if (mInterface != null && parameters.equals(mParameters)) {
-                Log.i("VPNService", "Using the previous interface");
-                return;
-            }
             // Configure a builder while parsing the parameters.
             Builder builder = new Builder();
             for (String parameter : parameters.split(" ")) {

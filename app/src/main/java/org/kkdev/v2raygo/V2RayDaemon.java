@@ -129,6 +129,7 @@ public class V2RayDaemon extends Service {
                         vp.StopLoop();
                     }
                     break;
+
                 case MSG_VPN_USER_CONSENT:
                     VPNCheckifReady();
                     break;
