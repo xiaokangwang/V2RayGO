@@ -261,6 +261,11 @@ public class V2RayDaemon extends Service {
         }
 
         @Override
+        public long Protect(long l) {
+            return vpns.protect((int)l)?0:1;
+        }
+
+        @Override
         public long Setup(String s) {
             try {
                 vpns.setup(s);
