@@ -33,10 +33,13 @@
         android:text="@string/enable_v2ray"
         android:id="@+id/enable_v2ray"
         android:checked="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:switchPadding="14dp"
-        android:switchMinWidth="100dp" />
+        android:splitTrack="false"
+        android:track="@drawable/switchtrack"
+        android:switchMinWidth="30mm"
+        android:layout_alignBottom="@+id/btn_pick_conf"
+        android:layout_alignParentStart="true"
+        android:thumb="@drawable/switchthumb" />
 
     <Button
         android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package org.kkdev.v2raygo;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -168,11 +169,24 @@ public class V2RayDaemon extends Service {
     }
 
     private int show_noti(String ctxtxt){
+        Intent resultIntent = new Intent(this, MainScreen.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+
+
         Notification status_noti = new Notification.Builder(this)
                 .setContentTitle(getText(R.string.app_noti_title))
+                .setContentIntent(resultPendingIntent)
                 .setContentText(ctxtxt)
                 .setSmallIcon(R.drawable.ic_vpn_key_black_24dp)
                 .build();
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(ONGOING_NOTIFICATION_ID, status_noti);
