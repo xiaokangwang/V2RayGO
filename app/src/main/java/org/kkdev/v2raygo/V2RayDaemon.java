@@ -184,7 +184,7 @@ public class V2RayDaemon extends Service {
                 .setContentTitle(getText(R.string.app_noti_title))
                 .setContentIntent(resultPendingIntent)
                 .setContentText(ctxtxt)
-                .setSmallIcon(R.drawable.ic_vpn_key_black_24dp)
+                .setSmallIcon(R.drawable.ic_rised_fist)
                 .build();
 
         NotificationManager mNotificationManager =
