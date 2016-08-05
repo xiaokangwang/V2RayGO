@@ -70,6 +70,7 @@ public class MainScreen extends AppCompatActivity {
                 Context.BIND_AUTO_CREATE);
         final TextView textView_current_Status = (TextView)findViewById(R.id.text_status);
         final Button Pick_Conf = (Button)findViewById(R.id.btn_pick_conf);
+        final Button show_logcat = (Button)findViewById(R.id.logcat_view);
         final Switch IsEnabled = (Switch)findViewById(R.id.enable_v2ray);
         final MainScreen me = this;
 
@@ -93,6 +94,14 @@ public class MainScreen extends AppCompatActivity {
                 }
                 getStatus();
                 alterRunningStatus(b);
+            }
+        });
+
+        show_logcat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent logcatIntent = new Intent(me,Logcatshow.class);
+                startActivity(logcatIntent);
             }
         });
 

@@ -3,7 +3,7 @@
     package="org.kkdev.v2raygo">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +42,11 @@
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE"
-            android:process=":RunSoLibV2RayDaemon">></service>
+            android:process=":RunSoLibV2RayDaemon">
+            >
+        </service>
+
+        <activity android:name=".Logcatshow" android:process=":MainActivProc"></activity>
     </application>
 
 </manifest>

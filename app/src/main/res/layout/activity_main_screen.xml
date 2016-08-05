@@ -53,4 +53,12 @@
         android:id="@+id/Remotewt"
         android:layout_below="@+id/text_status"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logcat"
+        android:id="@+id/logcat_view"
+        android:layout_alignBottom="@+id/btn_pick_conf"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
