@@ -18,6 +18,7 @@ import go.libv2ray.Libv2ray;
 public class V2RVPNService extends VpnService {
     final static String intent_communiacate = "org.kkdev.v2raygo.V2RVPNService_af0dc150-a47d-4fb1-971b-3a5ece9080fa";
     final V2RVPNService me = this;
+    Messenger master=null;
     public V2RVPNService() {
     }
 
@@ -40,6 +41,7 @@ public class V2RVPNService extends VpnService {
                     Message resp = Message.obtain(null, V2RayDaemon.MSG_return_self);
                     resp.obj=me;
                     try {
+                        master=msg.replyTo;
                         msg.replyTo.send(resp);
                     } catch (RemoteException e) {
                         e.printStackTrace();
@@ -52,8 +54,13 @@ public class V2RVPNService extends VpnService {
 
         @Override
         public void onRevoke() {
+            Message resp = Message.obtain(null, V2RayDaemon.MSG_Stop_V2Ray);
+            try {
+                master.send(resp);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             super.onRevoke();
-            stopSelf();
         }
 
         public int getfd(){

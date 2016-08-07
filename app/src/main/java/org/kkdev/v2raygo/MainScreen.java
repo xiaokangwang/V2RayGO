@@ -257,6 +257,7 @@ public class MainScreen extends AppCompatActivity {
                     IsEnabled.setChecked(Running);
                     nocheckact=false;
                     break;
+
                 }
             }
         }

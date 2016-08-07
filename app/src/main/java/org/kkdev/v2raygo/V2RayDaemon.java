@@ -49,8 +49,16 @@ public class V2RayDaemon extends Service {
             msg.replyTo=new Messenger(new Handler(new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message message) {
-                    me.vpns=(V2RVPNService) message.obj;
-                    VPNCheckifReady();
+                    switch (message.what){
+                        case MSG_return_self:
+                            me.vpns=(V2RVPNService) message.obj;
+                            VPNCheckifReady();
+                            break;
+                        case MSG_Stop_V2Ray:
+                            stopV2Ray();
+                            break;
+                    }
+
                     return true;
                 }
             }));
@@ -125,10 +133,7 @@ public class V2RayDaemon extends Service {
 
                     break;
                 case MSG_Stop_V2Ray:
-                    resign_noti();
-                    if(vp.getIsRunning()){
-                        vp.StopLoop();
-                    }
+                    stopV2Ray();
                     break;
 
                 case MSG_VPN_USER_CONSENT:
@@ -137,13 +142,22 @@ public class V2RayDaemon extends Service {
                 case MSG_VPN_USER_DROP:
                     vp.StopLoop();
                     break;
-                case MSG_return_self:
-                    vpns=(V2RVPNService)msg.obj;
+                //case MSG_return_self:
+                //    vpns=(V2RVPNService)msg.obj;
+                //WARNING: ACTUAL LOCATION: ServiceConnection/~/handleMessage
                 default:
                     super.handleMessage(msg);
             }
         }
     }
+
+    private void stopV2Ray() {
+        resign_noti();
+        if(vp.getIsRunning()){
+            vp.StopLoop();
+        }
+    }
+
     /**
      * Target we publish for clients to send messages to IncomingHandler.
      */
@@ -293,7 +307,7 @@ public class V2RayDaemon extends Service {
 
         @Override
         public long Shutdown() {
-            vpns.onRevoke();
+            //vpns.onRevoke();
             return 0;
         }
     }
