@@ -25,7 +25,8 @@
         android:id="@+id/text_status"
         android:layout_below="@+id/intro"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:gravity="center" />
 
     <Switch
         android:layout_width="wrap_content"

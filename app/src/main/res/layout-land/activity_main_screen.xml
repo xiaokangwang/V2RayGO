@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.kkdev.v2raygo.MainScreen">
+    tools:context="org.kkdev.v2raygo.MainScreen"
+    android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +26,8 @@
         android:id="@+id/text_status"
         android:layout_below="@+id/intro"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:gravity="center" />
 
     <Switch
         android:layout_width="wrap_content"
