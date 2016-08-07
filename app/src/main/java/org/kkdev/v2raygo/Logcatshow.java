@@ -3,6 +3,9 @@ package org.kkdev.v2raygo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -37,6 +40,19 @@ public class Logcatshow extends AppCompatActivity {
             tv.setText(log.toString());
             //final int scrollAmount = tv.getLayout().getLineTop(tv.getLineCount()) - tv.getHeight();
             //tv.scrollTo(0, scrollAmount);
+
+            final ScrollView scrollview = ((ScrollView) findViewById(R.id.scrollViewLogCat));
+            scrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    scrollview.post(new Runnable() {
+                        public void run() {
+                            scrollview.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                }
+            });
+
         } catch (IOException e) {
         }
     }
