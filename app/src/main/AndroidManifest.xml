@@ -46,6 +46,14 @@
             >
         </service>
 
+        <receiver android:name=".ConnectionChangeReceiver"
+            android:process=":RunSoLibV2RayDaemon"
+            android:label="NetworkConnection">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".Logcatshow" android:process=":MainActivProc"></activity>
     </application>
 

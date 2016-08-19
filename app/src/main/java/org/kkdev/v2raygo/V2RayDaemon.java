@@ -57,6 +57,7 @@ public class V2RayDaemon extends Service {
                         case MSG_Stop_V2Ray:
                             stopV2Ray();
                             break;
+
                     }
 
                     return true;
@@ -100,6 +101,7 @@ public class V2RayDaemon extends Service {
     static final int MSG_VPN_USER_CONSENT = 7;
     static final int MSG_VPN_USER_DROP = 8;
     static final int MSG_return_self = 9;
+    static final int MSG_NetworkStatusAlter = 10;
     class IncomingHandler extends Handler {
         @Override
         public void handleMessage(Message msg)  {
@@ -145,6 +147,8 @@ public class V2RayDaemon extends Service {
                 //case MSG_return_self:
                 //    vpns=(V2RVPNService)msg.obj;
                 //WARNING: ACTUAL LOCATION: ServiceConnection/~/handleMessage
+                case MSG_NetworkStatusAlter:
+                    vp.NetworkInterrupted();
                 default:
                     super.handleMessage(msg);
             }
