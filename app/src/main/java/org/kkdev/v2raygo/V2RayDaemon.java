@@ -120,10 +120,10 @@ public class V2RayDaemon extends Service {
                     }
                     break;
                 case MSG_CheckLibVer:
-                    Long libver=(long)Libv2ray.CheckVersion();
+                    //Long libver=(long)Libv2ray.CheckVersion();
                     Message resp = Message.obtain(null, MSG_CheckLibVerR);
                     Bundle bResp = new Bundle();
-                    bResp.putInt("LibVer",libver.intValue());
+                    bResp.putString("LibVerS",Libv2ray.CheckVersionX());
                     bResp.putBoolean("Running",vp.getIsRunning());
                     resp.setData(bResp);
                     try {

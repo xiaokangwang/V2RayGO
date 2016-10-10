@@ -245,14 +245,14 @@ public class MainScreen extends AppCompatActivity {
                     break;
                 }
                 case V2RayDaemon.MSG_CheckLibVerR:{
-                    Integer LibVer = msg.getData().getInt("LibVer");
+                    String LibVer = msg.getData().getString("LibVerS");
                     Boolean Running = msg.getData().getBoolean("Running");
 
                     SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
                     String configureFile = settings.getString("configureFile","");
 
                     String CurrentU="\n(Using "+configureFile+")";
-                    textView_current_Status.setText("LibV2Ray " + LibVer.toString()+" is "+ (Running?"Running":"Stopped")+CurrentU );
+                    textView_current_Status.setText("LibV2Ray " + LibVer+" is "+ (Running?"Running":"Stopped")+CurrentU );
                     nocheckact=true;
                     IsEnabled.setChecked(Running);
                     nocheckact=false;
