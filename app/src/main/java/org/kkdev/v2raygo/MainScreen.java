@@ -252,7 +252,7 @@ public class MainScreen extends AppCompatActivity {
                     String configureFile = settings.getString("configureFile","");
 
                     String CurrentU="\n(Using "+configureFile+")";
-                    textView_current_Status.setText("LibV2Ray " + LibVer+" is "+ (Running?"Running":"Stopped")+CurrentU );
+                    textView_current_Status.setText(LibVer+" is "+ (Running?"Running":"Stopped")+CurrentU );
                     nocheckact=true;
                     IsEnabled.setChecked(Running);
                     nocheckact=false;
