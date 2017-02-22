@@ -13,7 +13,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.util.Log;
 
-import go.libv2ray.Libv2ray;
+//import go.libv2ray.Libv2ray;
 
 public class V2RVPNService extends VpnService {
     final static String intent_communiacate = "org.kkdev.v2raygo.V2RVPNService_af0dc150-a47d-4fb1-971b-3a5ece9080fa";

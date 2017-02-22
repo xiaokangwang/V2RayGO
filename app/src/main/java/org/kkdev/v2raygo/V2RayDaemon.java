@@ -21,8 +21,12 @@ import android.os.RemoteException;
 import android.os.StrictMode;
 import android.util.Log;
 
-import go.libv2ray.Libv2ray;
-import go.libv2ray.Libv2ray.V2RayPoint;
+import go.libv2ray.*;
+import libv2ray.Libv2ray;
+import libv2ray.V2RayCallbacks;
+import libv2ray.V2RayPoint;
+import libv2ray.V2RayVPNServiceSupportsSet;
+
 
 public class V2RayDaemon extends Service {
 
@@ -84,7 +88,7 @@ public class V2RayDaemon extends Service {
     private static final int ONGOING_NOTIFICATION_ID = 1 ;
 
     Messenger Rmessager;
-    V2RayPoint vp = Libv2ray.NewV2RayPoint();
+    V2RayPoint vp = Libv2ray.newV2RayPoint();
     V2RayCallback vp_callback= new V2RayCallback();
     V2RVPNService vpns;
 
@@ -116,14 +120,14 @@ public class V2RayDaemon extends Service {
                         SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
                         String configureFile = settings.getString("configureFile","");
                         vp.setConfigureFile(configureFile);
-                        vp.RunLoop();
+                        vp.runLoop();
                     }
                     break;
                 case MSG_CheckLibVer:
                     //Long libver=(long)Libv2ray.CheckVersion();
                     Message resp = Message.obtain(null, MSG_CheckLibVerR);
                     Bundle bResp = new Bundle();
-                    bResp.putString("LibVerS",Libv2ray.CheckVersionX());
+                    bResp.putString("LibVerS",Libv2ray.checkVersionX());
                     bResp.putBoolean("Running",vp.getIsRunning());
                     resp.setData(bResp);
                     try {
@@ -142,13 +146,13 @@ public class V2RayDaemon extends Service {
                     VPNCheckifReady();
                     break;
                 case MSG_VPN_USER_DROP:
-                    vp.StopLoop();
+                    vp.stopLoop();
                     break;
                 //case MSG_return_self:
                 //    vpns=(V2RVPNService)msg.obj;
                 //WARNING: ACTUAL LOCATION: ServiceConnection/~/handleMessage
                 case MSG_NetworkStatusAlter:
-                    vp.NetworkInterrupted();
+                    vp.networkInterrupted();
                 default:
                     super.handleMessage(msg);
             }
@@ -158,7 +162,7 @@ public class V2RayDaemon extends Service {
     private void stopV2Ray() {
         resign_noti();
         if(vp.getIsRunning()){
-            vp.StopLoop();
+            vp.stopLoop();
         }
     }
 
@@ -203,6 +207,7 @@ public class V2RayDaemon extends Service {
                 .setContentIntent(resultPendingIntent)
                 .setContentText(ctxtxt)
                 .setSmallIcon(R.drawable.ic_rised_fist)
+                .setPriority(Notification.PRIORITY_MIN)
                 .build();
 
         NotificationManager mNotificationManager =
@@ -265,41 +270,41 @@ public class V2RayDaemon extends Service {
     private int VPNCheckifReady(){
         Intent prepare = vpns.prepare(this);
         if(prepare==null&&this.vpns!=null){
-            vp.VpnSupportReady();
+            vp.vpnSupportReady();
         }
         return 0;
     }
 
 
-    class V2RayCallback implements Libv2ray.V2RayCallbacks , Libv2ray.V2RayVPNServiceSupportsSet
+    class V2RayCallback implements V2RayCallbacks, V2RayVPNServiceSupportsSet
 
     {
 
         @Override
-        public long GetVPNFd() {
+        public long getVPNFd() {
             long fd = vpns.getfd();
             return vpns.getfd();
         }
 
         @Override
-        public long OnEmitStatus(long l, String s) {
+        public long onEmitStatus(long l, String s) {
             remoteWrite(s);
             return 0;
         }
 
         @Override
-        public long Prepare() {
+        public long prepare() {
 
             return VPNPrepare();
         }
 
         @Override
-        public long Protect(long l) {
+        public long protect(long l) {
             return vpns.protect((int)l)?0:1;
         }
 
         @Override
-        public long Setup(String s) {
+        public long setup(String s) {
             try {
                 vpns.setup(s);
                 return 0;
@@ -310,7 +315,7 @@ public class V2RayDaemon extends Service {
         }
 
         @Override
-        public long Shutdown() {
+        public long shutdown() {
             //vpns.onRevoke();
             return 0;
         }
