@@ -1,11 +1,13 @@
 package org.kkdev.v2raygo;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -21,8 +23,9 @@ import android.os.RemoteException;
 import android.os.StrictMode;
 import android.util.Log;
 
-import go.libv2ray.*;
+import libv2ray.InterfaceInfo;
 import libv2ray.Libv2ray;
+import libv2ray.StatControler;
 import libv2ray.V2RayCallbacks;
 import libv2ray.V2RayPoint;
 import libv2ray.V2RayVPNServiceSupportsSet;
@@ -139,6 +142,7 @@ public class V2RayDaemon extends Service {
 
                     break;
                 case MSG_Stop_V2Ray:
+                    DeveloperOptionClose();
                     stopV2Ray();
                     break;
 
@@ -273,6 +277,24 @@ public class V2RayDaemon extends Service {
             vp.vpnSupportReady();
         }
         return 0;
+    }
+
+    private void DeveloperOptionClose(){
+        if(vp.isDebugTriggered()){
+            try {
+                showStat();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showStat() throws Exception {
+        StatControler sc = vp.getStatControler();
+        sc.collectInterfaceInfo();
+        InterfaceInfo intf= sc.getCollectedInterfaceInfo();
+        String datas = String.format("RxMByte: %d, RxPacket: %d, TxMByte: %d, TxPacket: %d", intf.getRxByte()/1024/1024,intf.getRxPacket(),intf.getTxByte()/1024/1024,intf.getTxPacket());
+        Log.e("RunSoLib", datas);
     }
 
 

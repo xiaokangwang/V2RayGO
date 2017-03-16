@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 
@@ -107,6 +108,13 @@ public class MainScreen extends AppCompatActivity {
 
         getStatus();
         super.onResume();
+
+        File f = new File("/data/data/org.kkdev.v2raygo/enable_expermentalUI");
+        if(f.exists() && !f.isDirectory()) {
+            Intent navbaract = new Intent(this,NavDrawer.class);
+            startActivity(navbaract);
+        }
+
     }
 
     @Override

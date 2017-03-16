@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".NavDrawer"
+            android:process=":MainActivProc"
+            android:theme="@style/NavDrawerTheme" />
+
         <service
             android:name=".V2RayDaemon"
             android:enabled="true"

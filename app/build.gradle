@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "org.kkdev.v2raygo"
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 22
         versionName "1.0"
     }
@@ -15,8 +15,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+
         }
     }
+
     dexOptions {
         incremental true
     }
@@ -26,11 +33,18 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile project(':libv2ray')
+    compile project(path: ':libv2ray')
     compile project(path: ':MFP')
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.github.clans:fab:1.6.4'
+    testCompile 'junit:junit:4.12'
 }

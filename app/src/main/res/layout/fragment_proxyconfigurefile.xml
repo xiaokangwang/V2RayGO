@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:gravity="center_vertical|center_horizontal">
+
+    <RadioButton
+        android:text="ConfigureFileName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/Selector"
+        tools:gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        tools:text="ConfigureFileName"
+        android:contentDescription="demo"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="Dummy" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_weight="0.39"
+        android:text="Dummy" />
+</LinearLayout>
