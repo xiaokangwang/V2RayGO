@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.RadioButton;
 
 import org.kkdev.v2raygo.ProxyConfigureFileFragment.OnListFragmentInteractionListener;
 import org.kkdev.v2raygo.ProxyFile.ProxyConfigureFile.ProxyConfItem;
@@ -18,8 +18,10 @@ import java.util.List;
  */
 public class MyProxyConfigureFileRecyclerViewAdapter extends RecyclerView.Adapter<MyProxyConfigureFileRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ProxyConfItem> mValues;
+    public  List<ProxyConfItem> mValues;
     private final OnListFragmentInteractionListener mListener;
+
+    private final MyProxyConfigureFileRecyclerViewAdapter me = this;
 
     public MyProxyConfigureFileRecyclerViewAdapter(List<ProxyConfItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -35,10 +37,12 @@ public class MyProxyConfigureFileRecyclerViewAdapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
+        //holder.mIdView.setText(mValues.get(position).id);
+        //holder.mContentView.setText(mValues.get(position).content);
+        holder.MainButton.setText(holder.mItem.ctx.getBriefDesc(holder.mItem.path));
+        holder.MainButton.setChecked(holder.mItem.ctx.getConfigureFile().equals(holder.mItem.path));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +50,14 @@ public class MyProxyConfigureFileRecyclerViewAdapter extends RecyclerView.Adapte
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
                 }
+            }
+        });
+        holder.MainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.mItem.ctx.assignConfigureFile(holder.mItem.path);
+
             }
         });
     }
@@ -59,20 +69,24 @@ public class MyProxyConfigureFileRecyclerViewAdapter extends RecyclerView.Adapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        //public final TextView mIdView;
+        //public final TextView mContentView;
+
+        public final RadioButton MainButton;
+
         public ProxyConfItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            MainButton = (RadioButton)view.findViewById(R.id.Selector);
+           // mIdView = (TextView) view.findViewById(R.id.id);
+           // mContentView = (TextView) view.findViewById(R.id.content);
         }
-
+        /*
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
-        }
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 package org.kkdev.v2raygo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,11 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nbsp.materialfilepicker.filter.CompositeFilter;
+import com.nbsp.materialfilepicker.filter.HiddenFilter;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
 import org.kkdev.v2raygo.ProxyFile.ProxyConfigureFile;
 import org.kkdev.v2raygo.ProxyFile.ProxyConfigureFile.ProxyConfItem;
 
+import java.io.FileFilter;
+import java.util.ArrayList;
+
 import libv2ray.Libv2ray;
-import libv2ray.*;
+import libv2ray.V2RayContext;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A fragment representing a list of Items.
@@ -22,6 +32,7 @@ import libv2ray.*;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
+
 public class ProxyConfigureFileFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -30,6 +41,39 @@ public class ProxyConfigureFileFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private V2RayContext v2RayContext = Libv2ray.newLib2rayContext();
+    private final ProxyConfigureFileFragment me =this;
+    private MyProxyConfigureFileRecyclerViewAdapter currentad;
+
+    public class VCCallback implements  libv2ray.V2RayContextCallbacks {
+
+        @Override
+        public void onFileSelectTriggerd() {
+
+            CompositeFilter filter = getFilter();
+
+            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+            intent.putExtra(FilePickerActivity.ARG_FILTER, filter);
+            startActivityForResult(intent,1);
+        }
+
+        @Override
+        public void onRefreshNeeded() {
+            currentad.notifyDataSetChanged();
+        }
+
+        private CompositeFilter getFilter() {
+            ArrayList<FileFilter> filters = new ArrayList<>();
+
+
+            filters.add(new HiddenFilter());
+
+
+
+            return new CompositeFilter(filters);
+        }
+
+
+    }
 
 
     /**
@@ -37,6 +81,7 @@ public class ProxyConfigureFileFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public ProxyConfigureFileFragment() {
+        v2RayContext.setCallbacks(new VCCallback());
     }
 
     // TODO: Customize parameter initialization
@@ -56,6 +101,7 @@ public class ProxyConfigureFileFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
     }
 
     @Override
@@ -63,6 +109,13 @@ public class ProxyConfigureFileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proxyconfigurefile_list, container, false);
 
+        reset(view);
+
+
+        return view;
+    }
+
+    private void reset(View view) {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -72,12 +125,22 @@ public class ProxyConfigureFileFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-
-            recyclerView.setAdapter(new MyProxyConfigureFileRecyclerViewAdapter(ProxyConfigureFile.ITEMS, mListener));
+            currentad = new MyProxyConfigureFileRecyclerViewAdapter(ProxyConfigureFile.CreateFromStringArray(v2RayContext.listConfigureFileDir(),v2RayContext), mListener);
+            recyclerView.setAdapter(currentad);
         }
-        return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            // Do anything with file
+            v2RayContext.assignConfigureFile(filePath);
+            currentad.mValues = ProxyConfigureFile.CreateFromStringArray(v2RayContext.listConfigureFileDir(),v2RayContext);
+            currentad.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -112,7 +175,6 @@ public class ProxyConfigureFileFragment extends Fragment {
 
         @Override
         public void onListFragmentInteraction(ProxyConfItem item) {
-
         }
     }
     public interface OnListFragmentInteractionListener {

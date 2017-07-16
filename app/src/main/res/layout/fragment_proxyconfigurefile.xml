@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="1"
-    android:gravity="center_vertical|center_horizontal">
+    android:divider="@android:color/darker_gray"
+    android:dividerPadding="3dp"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <RadioButton
-        android:text="ConfigureFileName"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:id="@+id/Selector"
-        tools:gravity="center_vertical|center_horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        tools:text="ConfigureFileName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:contentDescription="demo"
+        android:gravity="center_vertical|center_horizontal"
+        android:minHeight="34dp"
+        android:text="ConfigureFileName"
         android:textAlignment="center"
-        android:textSize="12sp" />
+        android:textSize="24sp"
+        tools:gravity="center_vertical|center_horizontal"
+        tools:text="ConfigureFileName" />
 
     <TextView
         android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:text="Dummy"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:text="Dummy" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"
         android:layout_weight="0.39"
-        android:text="Dummy" />
+        android:text="Dummy"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:visibility="gone" />
 </LinearLayout>
