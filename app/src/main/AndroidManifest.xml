@@ -14,17 +14,19 @@
         <activity
             android:name=".MainScreen"
             android:process=":MainActivProc">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".NavDrawer"
             android:process=":MainActivProc"
-            android:theme="@style/NavDrawerTheme" />
+            android:theme="@style/NavDrawerTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <service
             android:name=".V2RayDaemon"
@@ -51,15 +53,18 @@
             >
         </service>
 
-        <receiver android:name=".ConnectionChangeReceiver"
-            android:process=":RunSoLibV2RayDaemon"
-            android:label="NetworkConnection">
+        <receiver
+            android:name=".ConnectionChangeReceiver"
+            android:label="NetworkConnection"
+            android:process=":RunSoLibV2RayDaemon">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Logcatshow" android:process=":MainActivProc"></activity>
+        <activity
+            android:name=".Logcatshow"
+            android:process=":MainActivProc" />
     </application>
 
 </manifest>

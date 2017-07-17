@@ -1,24 +1,18 @@
 package org.kkdev.v2raygo;
 
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.net.VpnService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.util.Log;
@@ -120,9 +114,17 @@ public class V2RayDaemon extends Service {
                         show_noti("Freedom shall be portable.");
                         vp.setCallbacks(vp_callback);
                         vp.setVpnSupportSet(vp_callback);
-                        SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
-                        String configureFile = settings.getString("configureFile","");
-                        vp.setConfigureFile(configureFile);
+
+
+                        /*Use Next Generation Interface's Behavior: V2RayContext
+                        ConfigureFile will be readed by libV2Ray without our knowledge
+                        */
+
+                        vp.upgradeToContext();
+
+                        //SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
+                        //String configureFile = settings.getString("configureFile","");
+                        //vp.setConfigureFile(configureFile);
                         vp.runLoop();
                     }
                     break;

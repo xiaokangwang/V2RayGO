@@ -1,9 +1,13 @@
 package org.kkdev.v2raygo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +53,22 @@ public class ProxyConfigureFileFragment extends Fragment {
         @Override
         public void onFileSelectTriggerd() {
 
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+
+            }else{
+                ConfigureSelector();
+            }
+
+
+
+        }
+
+        private void ConfigureSelector() {
             CompositeFilter filter = getFilter();
 
             Intent intent = new Intent(getActivity(), FilePickerActivity.class);
@@ -129,6 +149,10 @@ public class ProxyConfigureFileFragment extends Fragment {
             recyclerView.setAdapter(currentad);
         }
     }
+
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

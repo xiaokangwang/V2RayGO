@@ -1,12 +1,24 @@
 package org.kkdev.v2raygo;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 /**
@@ -61,6 +73,79 @@ public class FragmentStatusBeief extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton enableFab = (FloatingActionButton)view.findViewById(R.id.fab_switchservice);
+        enableFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAndBindService();
+                alterV2RayRunningStatus();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAndBindService();
+        if (mBound) {
+            RequestRunningStatusUpdate();
+        }
+    }
+
+    private boolean alterV2RayRunningStatus(){
+        alterRunningStatus(!isV2RayRunning);
+        return false;
+    }
+    private boolean V2RayRunningStatusDeliver(){
+        FloatingActionButton enableFab = (FloatingActionButton)getView().findViewById(R.id.fab_switchservice);
+        enableFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(isV2RayRunning?R.color.green:R.color.darkred)));
+        enableFab.setImageResource(isV2RayRunning?R.drawable.ic_done_black_24dp:R.drawable.ic_prison);
+        return false;
+    }
+
+    /** Messenger for communicating with the service. */
+    Messenger mService = null;
+    boolean nocheckact=false;
+
+    /** Flag indicating whether we have called bind on the service. */
+    boolean mBound;
+
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // This is called when the connection with the service has been
+            // established, giving us the object we can use to
+            // interact with the service.  We are communicating with the
+            // service using a Messenger, so here we get a client-side
+            // representation of that from the raw IBinder object.
+            mService = new Messenger(service);
+            mBound = true;
+            //getStatus();
+            RequestRunningStatusUpdate();
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // This is called when the connection with the service has been
+            // unexpectedly disconnected -- that is, its process crashed.
+            mService = null;
+            mBound = false;
+
+            startAndBindService();
+        }
+    };
+
+
+    private void startAndBindService(){
+        Intent intent = new Intent(getContext(),V2RayDaemon.class);
+        getContext().startService(intent);
+
+        getContext().bindService(new Intent(getContext(), V2RayDaemon.class), mConnection,
+                Context.BIND_AUTO_CREATE|Context.BIND_ABOVE_CLIENT);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -84,6 +169,7 @@ public class FragmentStatusBeief extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }*/
+        startAndBindService();
     }
 
     @Override
@@ -106,4 +192,74 @@ public class FragmentStatusBeief extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+    private boolean isV2RayRunning=false;
+    private String V2RayVersion;
+
+    class RunningResponseHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            int respCode = msg.what;
+            switch (respCode) {
+                //legacy data ignored
+                case V2RayDaemon.MSG_CheckLibVerP: {
+                    String result = msg.getData().getString("Status");
+                    RequestRunningStatusUpdate();
+                    break;
+                }
+                case V2RayDaemon.MSG_CheckLibVerR:{
+                    String LibVer = msg.getData().getString("LibVerS");
+                    Boolean Running = msg.getData().getBoolean("Running");
+                    V2RayVersion = LibVer;
+                    isV2RayRunning = Running;
+                    V2RayRunningStatusDeliver();
+                    break;
+
+                }
+            }
+        }
+
+    }
+
+    private void alterRunningStatus(boolean running){
+
+        // Create and send a message to the service, using a supported 'what' value
+        Message msg = Message.obtain(null, running?V2RayDaemon.MSG_Start_V2Ray:V2RayDaemon.MSG_Stop_V2Ray , 0, 0);
+        sendMsgToV2RayDaemon(msg);
+
+    }
+
+    private void RequestRunningStatusUpdate(){
+
+        // Create and send a message to the service, using a supported 'what' value
+        Message msg = Message.obtain(null, V2RayDaemon.MSG_CheckLibVer , 0, 0);
+        sendMsgToV2RayDaemon(msg);
+
+    }
+
+    private void sendMsgToV2RayDaemon(Message msg){
+        if (!mBound) {
+            showerrtoast();
+            return;
+        };
+        // Create and send a message to the service, using a supported 'what' value
+        msg.replyTo = new Messenger(new RunningResponseHandler());
+        try {
+            mService.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            showerrtoast();
+
+        }
+    }
+
+    private void showerrtoast() {
+        Toast.makeText(getActivity(), (String)"Failed to Progress your Request.",
+                Toast.LENGTH_LONG).show();
+        return;
+    }
+
 }
