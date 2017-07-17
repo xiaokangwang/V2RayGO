@@ -197,7 +197,7 @@ public class V2RayDaemon extends Service {
     }
 
     private int show_noti(String ctxtxt){
-        Intent resultIntent = new Intent(this, MainScreen.class);
+        Intent resultIntent = new Intent(this, NavDrawer.class);
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
                         this,
