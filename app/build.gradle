@@ -8,7 +8,7 @@ android {
         applicationId "org.kkdev.v2raygo"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 35
+        versionCode 36
         versionName "1.0"
     }
     buildTypes {

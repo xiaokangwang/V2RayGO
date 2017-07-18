@@ -6,10 +6,6 @@
     tools:context="org.kkdev.v2raygo.FragmentStatusBeief">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_switchservice"
@@ -18,9 +14,41 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_prison"
+        app:srcCompat="@drawable/ic_prison"
         app:backgroundTint="@color/darkred"
         app:elevation="4dp"
         app:fabSize="normal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/Brief_Info"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/LogOut"
+                android:layout_width="match_parent"
+                android:layout_height="572dp"
+                android:layout_weight="1.53"
+                android:gravity="bottom"
+                android:scrollbars="vertical"
+                android:visibility="visible" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

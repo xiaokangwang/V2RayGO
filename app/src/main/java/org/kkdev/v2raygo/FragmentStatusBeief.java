@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -102,6 +103,23 @@ public class FragmentStatusBeief extends Fragment {
         FloatingActionButton enableFab = (FloatingActionButton)getView().findViewById(R.id.fab_switchservice);
         enableFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(isV2RayRunning?R.color.green:R.color.darkred)));
         enableFab.setImageResource(isV2RayRunning?R.drawable.ic_done_black_24dp:R.drawable.ic_prison);
+
+        TextView Version = (TextView)getView().findViewById(R.id.Brief_Info);
+        Version.setText(V2RayVersion);
+        return false;
+    }
+    StringBuilder Logstrb = new StringBuilder();
+    int currentLogLength = 0;
+    int lastremovefrom = 0;
+    private boolean OnlogDelivered(String NewLog){
+        TextView Log = (TextView)getView().findViewById(R.id.LogOut);
+        currentLogLength++;
+        if(currentLogLength>=10){
+            lastremovefrom=Logstrb.indexOf("\n");
+            Logstrb.delete(0,lastremovefrom+1);
+        }
+        Logstrb.append(NewLog+"\n");
+        Log.setText(Logstrb.toString());
         return false;
     }
 
@@ -208,6 +226,7 @@ public class FragmentStatusBeief extends Fragment {
                 case V2RayDaemon.MSG_CheckLibVerP: {
                     String result = msg.getData().getString("Status");
                     RequestRunningStatusUpdate();
+                    OnlogDelivered(result);
                     break;
                 }
                 case V2RayDaemon.MSG_CheckLibVerR:{
