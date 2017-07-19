@@ -14,6 +14,7 @@ public class NavDrawer extends MaterialNavigationDrawer {
     public void init(Bundle savedInstanceState) {
         this.addSection(newSection("Brief", new FragmentStatusBeief()));
         this.addSection(newSection("Configure", new ProxyConfigureFileFragment()));
+        this.addSection(newSection("Advanced", new AdvancedFragment()));
     }
 
     @Override

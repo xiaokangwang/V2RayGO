@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.kkdev.v2raygo.AdvancedFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <Button
+            android:id="@+id/logcat_btn"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:text="Logcat"
+            app:layout_constraintDimensionRatio="w,1:1"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="171dp" />
+    </RelativeLayout>
+
+</FrameLayout>
