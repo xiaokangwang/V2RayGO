@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import org.kkdev.andproj.libv2raycodescanner.QRScanIniter;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,6 +81,14 @@ public class AdvancedFragment extends Fragment {
             public void onClick(View view) {
                 Intent logcatIntent = new Intent(getActivity(),Logcatshow.class);
                 startActivity(logcatIntent);
+            }
+        });
+        final Button qrscantest = (Button)getView().findViewById(R.id.QRScanTest);
+        qrscantest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QRScanIniter si = new QRScanIniter();
+                si.Open(getActivity());
             }
         });
     }

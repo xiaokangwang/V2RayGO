@@ -21,6 +21,16 @@
             app:layout_constraintDimensionRatio="w,1:1"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="171dp" />
+
+        <Button
+            android:id="@+id/QRScanTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:text="QRScanTest"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/logcat_btn"
+            android:layout_alignBottom="@+id/logcat_btn" />
     </RelativeLayout>
 
 </FrameLayout>

@@ -1,1 +1,1 @@
-include ':app', ':libv2ray', ':MFP'
+include ':app', ':libv2ray', ':MFP', ':libv2raycodescanner'
