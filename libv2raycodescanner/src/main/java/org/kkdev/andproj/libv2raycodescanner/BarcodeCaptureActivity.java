@@ -483,7 +483,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
-                            v2RayQRContext.init();
+                            v2RayQRContext.discard();
                         }
                     });
 
