@@ -202,6 +202,18 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             if (hasLowStorage) {
                 Toast.makeText(this, R.string.low_storage_error, Toast.LENGTH_LONG).show();
                 Log.w(TAG, getString(R.string.low_storage_error));
+            }else{
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Active Internet connection required.")
+                        .setMessage("Sorry, we needs to accesss google's server at first use. The download is either yet to finish or you are not connected to internet.")
+                        .setPositiveButton(R.string.ok, listener)
+                        .show();
             }
         }
 
