@@ -13,19 +13,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainScreen"
-            android:process=":MainActivProc">
-        </activity>
-
+            android:process=":MainActivProc"></activity>
         <activity
             android:name=".NavDrawer"
             android:process=":MainActivProc"
-            android:theme="@style/NavDrawerTheme"
-            >
+            android:theme="@style/NavDrawerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -65,6 +62,14 @@
         <activity
             android:name=".Logcatshow"
             android:process=":MainActivProc" />
+
+        <provider
+            android:name=".DebugWaiterService"
+            android:authorities="df658353-87d0-40f5-b736-fbcbd11c101b"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":RunSoLibV2RayDaemon"
+            ></provider>
     </application>
 
 </manifest>

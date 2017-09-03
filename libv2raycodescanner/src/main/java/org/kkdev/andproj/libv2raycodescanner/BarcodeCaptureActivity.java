@@ -39,6 +39,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -113,9 +114,12 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        /*Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();*/
+        Snackbar sk = Snackbar.make(mGraphicOverlay, "Do not scan QR code from people you don't trust. LibV2Ray configure file can contain active content and " +
+                        "could cause arbitrary damage to your device and you.",
+                Snackbar.LENGTH_INDEFINITE)
+                ;
+        ((TextView)(sk.getView().findViewById(android.support.design.R.id.snackbar_text))).setMaxLines(5);
+        sk.show();
         v2RayQRContext.setScanReporter(new QRReportAss());
     }
 

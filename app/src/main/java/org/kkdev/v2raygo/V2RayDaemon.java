@@ -27,6 +27,7 @@ import libv2ray.V2RayVPNServiceSupportsSet;
 
 public class V2RayDaemon extends Service {
 
+
     Messenger mService = null;
 
     /** Flag indicating whether we have called bind on the service. */
@@ -90,6 +91,7 @@ public class V2RayDaemon extends Service {
     V2RVPNService vpns;
 
     public V2RayDaemon() {
+
     }
 
 
@@ -277,6 +279,7 @@ public class V2RayDaemon extends Service {
         Intent prepare = vpns.prepare(this);
         if(prepare==null&&this.vpns!=null){
             vp.vpnSupportReady();
+
         }
         return 0;
     }
