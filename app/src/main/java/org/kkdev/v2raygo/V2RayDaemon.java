@@ -124,6 +124,7 @@ public class V2RayDaemon extends Service {
 
                         vp.upgradeToContext();
 
+
                         //SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
                         //String configureFile = settings.getString("configureFile","");
                         //vp.setConfigureFile(configureFile);
@@ -332,6 +333,7 @@ public class V2RayDaemon extends Service {
 
         @Override
         public long setup(String s) {
+            me.vpns.v2ctx=vp.getContext();
             try {
                 vpns.setup(s);
                 return 0;

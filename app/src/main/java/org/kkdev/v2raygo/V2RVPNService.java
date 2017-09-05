@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.VpnService;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,6 +20,8 @@ public class V2RVPNService extends VpnService {
     final static String intent_communiacate = "org.kkdev.v2raygo.V2RVPNService_af0dc150-a47d-4fb1-971b-3a5ece9080fa";
     final V2RVPNService me = this;
     Messenger master=null;
+    public libv2ray.V2RayContext v2ctx=null;
+
     public V2RVPNService() {
     }
 
@@ -102,6 +105,19 @@ public class V2RVPNService extends VpnService {
             } catch (Exception e) {
                 // ignore
             }
+
+            //If necessary, add packages to deny list
+            String disallowlist=v2ctx.readPropD("DisallowedApplication");
+
+            if(!disallowlist.isEmpty()){
+                String[] disallow_list=disallowlist.split("\n");
+                for(String disallow_app:disallow_list){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder.addDisallowedApplication(disallow_app);
+                    }
+                }
+            }
+
             // Create a new interface using the builder and save the parameters.
             mInterface = builder.establish();
             mParameters = parameters;
