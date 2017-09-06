@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainScreen"
-            android:process=":MainActivProc"></activity>
+            android:process=":MainActivProc" />
         <activity
             android:name=".NavDrawer"
             android:process=":MainActivProc"
@@ -68,8 +68,13 @@
             android:authorities="df658353-87d0-40f5-b736-fbcbd11c101b"
             android:enabled="true"
             android:exported="true"
-            android:process=":RunSoLibV2RayDaemon"
-            ></provider>
+            android:process=":RunSoLibV2RayDaemon" />
+
+        <service
+            android:name=".V2RayAdvancedStabilityAssist"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":AdvancedStabilityAssist"></service>
     </application>
 
 </manifest>

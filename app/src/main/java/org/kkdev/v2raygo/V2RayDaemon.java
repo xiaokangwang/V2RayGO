@@ -129,6 +129,10 @@ public class V2RayDaemon extends Service {
                         //String configureFile = settings.getString("configureFile","");
                         //vp.setConfigureFile(configureFile);
                         vp.runLoop();
+                        String sasc = vp.getContext().readPropD("SAS");
+                        if(sasc.startsWith("Enable")){
+                            StartSAS();
+                        }
                     }
                     break;
                 case MSG_CheckLibVer:
@@ -149,6 +153,9 @@ public class V2RayDaemon extends Service {
                 case MSG_Stop_V2Ray:
                     DeveloperOptionClose();
                     stopV2Ray();
+                    if(vp.getContext().readPropD("SAS").startsWith("Enable")){
+                        StopSAS();
+                    }
                     break;
 
                 case MSG_VPN_USER_CONSENT:
@@ -345,11 +352,89 @@ public class V2RayDaemon extends Service {
 
         @Override
         public long shutdown() {
+
             //vpns.onRevoke();
             return 0;
+        }
+
+    }
+
+    //Bind to SAS
+
+    void StartSAS(){
+        if(SASBound){
+            Message msg = Message.obtain(null, V2RayAdvancedStabilityAssist.V2RayAdvancedStabilityAssist_MONITORME , 0, 0);
+            msg.replyTo=new Messenger(new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+
+                }
+            });
+
+            Bundle datap=new Bundle();
+            datap.putInt("ProcessID",android.os.Process.myPid());
+            msg.setData(datap);
+            try {
+                SASService.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Intent intent = new Intent(this,V2RayAdvancedStabilityAssist.class);
+            this.startService(intent);
+            this.bindService(new Intent(this, V2RayAdvancedStabilityAssist.class), SASConnection,
+                    Context.BIND_AUTO_CREATE|Context.BIND_ABOVE_CLIENT);
         }
     }
 
 
+
+    void StopSAS(){
+        Message msg = Message.obtain(null, V2RayAdvancedStabilityAssist.V2RayAdvancedStabilityAssist_MONITORDISENGAGE , 0, 0);
+        msg.replyTo=new Messenger(new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+
+            }
+        });
+
+        Bundle datap=new Bundle();
+        datap.putInt("ProcessID",android.os.Process.myPid());
+        msg.setData(datap);
+        try {
+            SASService.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    Messenger SASService = null;
+
+    /** Flag indicating whether we have called bind on the service. */
+    boolean SASBound;
+
+    private ServiceConnection SASConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // This is called when the connection with the service has been
+            // established, giving us the object we can use to
+            // interact with the service.  We are communicating with the
+            // service using a Messenger, so here we get a client-side
+            // representation of that from the raw IBinder object.
+            SASService = new Messenger(service);
+            SASBound = true;
+            //getStatus();
+            StartSAS();
+
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // This is called when the connection with the service has been
+            // unexpectedly disconnected -- that is, its process crashed.
+            SASService = null;
+            SASBound = false;
+
+
+        }
+    };
 
 }
