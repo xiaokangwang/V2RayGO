@@ -13,12 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollViewLogCat"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:fillViewport="false"
-        android:foregroundGravity="bottom">
+        android:foregroundGravity="bottom"
+        android:layout_above="@+id/button_copy">
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,4 +32,12 @@
             android:nestedScrollingEnabled="true"
             android:gravity="bottom" />
     </ScrollView>
+
+    <Button
+        android:id="@+id/button_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="Copy To Clipboard" />
 </RelativeLayout>

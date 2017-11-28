@@ -103,7 +103,6 @@ public class V2RayAdvancedStabilityAssist extends Service {
         if(processid!=0){
             try {
                 android.os.Process.killProcess(processid);
-                android.os.
                 processid=0;
                 Intent intent = new Intent(this,V2RayDaemon.class);
                 this.startService(intent);

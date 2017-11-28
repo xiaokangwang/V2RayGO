@@ -112,14 +112,19 @@ public class FragmentStatusBeief extends Fragment {
     int currentLogLength = 0;
     int lastremovefrom = 0;
     private boolean OnlogDelivered(String NewLog){
-        TextView Log = (TextView)getView().findViewById(R.id.LogOut);
-        currentLogLength++;
-        if(currentLogLength>=10){
-            lastremovefrom=Logstrb.indexOf("\n");
-            Logstrb.delete(0,lastremovefrom+1);
+        try {
+            TextView Log = (TextView)getView().findViewById(R.id.LogOut);
+            currentLogLength++;
+            if(currentLogLength>=10){
+                lastremovefrom=Logstrb.indexOf("\n");
+                Logstrb.delete(0,lastremovefrom+1);
+            }
+            Logstrb.append(NewLog+"\n");
+            Log.setText(Logstrb.toString());
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        Logstrb.append(NewLog+"\n");
-        Log.setText(Logstrb.toString());
+
         return false;
     }
 

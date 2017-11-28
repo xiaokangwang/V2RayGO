@@ -8,7 +8,7 @@ android {
         applicationId "org.kkdev.v2raygo"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 40
+        versionCode 45
         versionName "1.0"
     }
     buildTypes {
@@ -20,7 +20,6 @@ android {
         debug {
             minifyEnabled false
             shrinkResources false
-
         }
     }
 

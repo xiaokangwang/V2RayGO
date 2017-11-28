@@ -1,10 +1,14 @@
 package org.kkdev.v2raygo;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -19,7 +23,18 @@ public class Logcatshow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logcatshow);
         setTitle("V2RayGO logcat");
+        Button copybtn = (Button)findViewById(R.id.button_copy);
+        copybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager)
+                        getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Lc",cBuffer);
+                clipboard.setPrimaryClip(clip);
+            }
+        });
     }
+    String cBuffer;
 
     @Override
     protected void onPostResume() {
@@ -38,6 +53,7 @@ public class Logcatshow extends AppCompatActivity {
             TextView tv = (TextView)findViewById(R.id.textView_logcat);
             tv.setMovementMethod(new ScrollingMovementMethod());
             tv.setText(log.toString());
+            cBuffer=log.toString();
             //final int scrollAmount = tv.getLayout().getLineTop(tv.getLineCount()) - tv.getHeight();
             //tv.scrollTo(0, scrollAmount);
 
