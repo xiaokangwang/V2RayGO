@@ -40,12 +40,12 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(path: ':libv2ray')
     compile project(path: ':MFP')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:support-v4:27.0.2'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile project(':libv2raycodescanner')
