@@ -100,12 +100,16 @@ public class FragmentStatusBeief extends Fragment {
         return false;
     }
     private boolean V2RayRunningStatusDeliver(){
-        FloatingActionButton enableFab = (FloatingActionButton)getView().findViewById(R.id.fab_switchservice);
-        enableFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(isV2RayRunning?R.color.green:R.color.darkred)));
-        enableFab.setImageResource(isV2RayRunning?R.drawable.ic_done_black_24dp:R.drawable.ic_prison);
+        try{
+            FloatingActionButton enableFab = (FloatingActionButton)getView().findViewById(R.id.fab_switchservice);
+            enableFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(isV2RayRunning?R.color.green:R.color.darkred)));
+            enableFab.setImageResource(isV2RayRunning?R.drawable.ic_done_black_24dp:R.drawable.ic_prison);
 
-        TextView Version = (TextView)getView().findViewById(R.id.Brief_Info);
-        Version.setText(V2RayVersion);
+            TextView Version = (TextView)getView().findViewById(R.id.Brief_Info);
+            Version.setText(V2RayVersion);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
         return false;
     }
     StringBuilder Logstrb = new StringBuilder();
@@ -161,11 +165,16 @@ public class FragmentStatusBeief extends Fragment {
 
 
     private void startAndBindService(){
-        Intent intent = new Intent(getContext(),V2RayDaemon.class);
-        getContext().startService(intent);
+        try{
+            Intent intent = new Intent(getContext(),V2RayDaemon.class);
+            getContext().startService(intent);
 
-        getContext().bindService(new Intent(getContext(), V2RayDaemon.class), mConnection,
-                Context.BIND_AUTO_CREATE|Context.BIND_ABOVE_CLIENT);
+            getContext().bindService(new Intent(getContext(), V2RayDaemon.class), mConnection,
+                    Context.BIND_AUTO_CREATE|Context.BIND_ABOVE_CLIENT);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
