@@ -1,29 +1,5 @@
 apply plugin: 'com.android.library'
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'library'
-
-    publishedGroupId = 'com.nbsp'
-    libraryName = 'Material File Picker'
-    artifact = 'library'
-
-    libraryDescription = 'File picker library in material design'
-
-    siteUrl = 'https://github.com/nbsp-team/MaterialFilePicker'
-    gitUrl = 'https://github.com/nbsp-team/MaterialFilePicker'
-
-    libraryVersion = '1.09'
-
-    developerId = 'lukaville'
-    developerName = 'Nickolay Chameev'
-    developerEmail = 'lukaville@gmail.com'
-
-    licenseName = 'GNU GENERAL PUBLIC LICENSE Version 2'
-    licenseUrl = 'https://raw.githubusercontent.com/nbsp-team/MaterialFilePicker/master/LICENSE'
-    allLicenses = ["GNU-GPL-2.0"]
-}
-
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
