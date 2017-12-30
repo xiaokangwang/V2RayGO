@@ -123,6 +123,7 @@ public class V2RayDaemon extends Service {
                         */
 
                         vp.upgradeToContext();
+                        vp.optinNextGenerationTunInterface();
 
 
                         //SharedPreferences settings = getSharedPreferences("org.kkdev.v2raygo_main",MODE_MULTI_PROCESS);
